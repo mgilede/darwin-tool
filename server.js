@@ -10,6 +10,8 @@ const app = express();
 
 app.use(cors());
 
+app.use(Sketcher.sketcher);
+
 app.get('/', (req, res, next) => {
 	res.json({ status: 'ok' });
 	next();
