@@ -15,12 +15,14 @@ const readFile = (fileToRead, callback) => {
 	});
 };
 
-const writeFile = (fileToWrite, data) => {
+const writeFile = (fileToWrite, data, callback) => {
 	fs.writeFile(fileToWrite, data, (err) => {
 		if (err) {
-			console.error(err);
+			callback(err);
+			return;
 		}
-		console.log(`File printed in: ${fileToWrite}`);
+		callback(null, { message: 'File processed' });
+		return;
 	});
 };
 
@@ -32,7 +34,7 @@ const printCanvas = (canvas) => {
 	return canvasString;
 };
 
-const sketcher = (req, res, next) => {
+const sketcher = (callback) => {
 	const inputFolder = '../inputFiles';
 	const outputFolder = '../outputFiles';
 	const inputPath = path.join(__dirname, inputFolder);
@@ -68,12 +70,20 @@ const sketcher = (req, res, next) => {
 					if (canvas != null) {
 						canvasOutput = canvasOutput.concat(printCanvas(canvas.canvas));
 					}
+					writeFile(
+						path.join(outputPath, `output${file.replace('input', '')}`),
+						canvasOutput,
+						(err, result) => {
+							if (err) {
+								callback(err);
+							}
+						}
+					);
 				}
-				writeFile(path.join(outputPath, file), canvasOutput);
 			});
 		}
+		callback(null, { message: 'File(s) processed' });
 	});
-	next();
 };
 
 module.exports = {

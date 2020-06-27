@@ -10,10 +10,19 @@ const app = express();
 
 app.use(cors());
 
-app.use(Sketcher.sketcher);
+app.get('/sketcher', async (req, res, next) => {
+	Sketcher.sketcher((err, result) => {
+		if (err) {
+			res.status(400).json(400, { message: err });
+			return;
+		}
+		res.status(200).json({ status: result });
+		return;
+	});
+});
 
 app.get('/', (req, res, next) => {
-	res.json({ status: 'ok' });
+	res.status(200).json({ status: 'ok' });
 	next();
 });
 
