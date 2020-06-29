@@ -3,6 +3,13 @@
 	"version": "1.0.0",
 	"description": "Drawing Tool is an application that can create a canvas and draw in it.",
 	"main": "server.js",
+<<<<<<< HEAD
+	"engines": {
+		"node": "12.18.0",
+		"npm": "6.14.4"
+	},
+=======
+>>>>>>> 9faaf3da8441a69ddb743348f64add21af01cec2
 	"scripts": {
 		"start": "node server.js",
 		"dev": "nodemon server.js"
