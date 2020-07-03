@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    depends_on:
+      - server
+    ports:
+      - '3000:80'
+    restart: always
+    container_name: client
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - '5000:80'
+    restart: always
+    container_name: server
